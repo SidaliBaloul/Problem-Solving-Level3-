@@ -1,0 +1,42 @@
+string ReadName()
+{
+	string word;
+	cout << "enter the name : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+short CounterWords(string word)
+{
+	string delim = " ";
+	short pos = 0;
+	string sword;
+	int counter = 0;
+
+	while ((pos = word.find(delim)) != std::string::npos)
+	{
+		sword = word.substr(0, pos);
+		if (sword != "")
+		{
+			counter++;
+		}
+
+		word.erase(0, pos + delim.length());
+
+	}
+
+	if (word != "")
+	{
+		counter++;
+	}
+
+	return counter;
+}
+
+
+
+int main()
+{
+	string word = ReadName();
+	cout << "number of words is : " << endl;
+	cout << CounterWords(word) << endl;

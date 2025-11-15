@@ -1,0 +1,69 @@
+struct stInfo
+{
+	string accountnumber;
+	string pincode;
+	string name;
+	string phone;
+	string accountbalance;
+};
+
+string ReadInf()
+{
+	string info;
+	cout << "line record is : " << endl;
+	getline(cin, info);
+
+	return info;
+}
+vector <string> vFun(string infos,string delim)
+{
+	vector <string> vWord;
+	int pos = 0; 
+	string word = "";
+
+	while ((pos = infos.find(delim)) != std::string::npos)
+	{
+		word = infos.substr(0, pos);
+		if (word != " ")
+		{
+			vWord.push_back(word);
+		}
+		infos.erase(0, pos + delim.length());
+	}
+	if (infos != " ")
+	{
+		vWord.push_back(infos);
+	}
+	return vWord;
+}
+
+stInfo Fill(string infos, string delim)
+{
+	stInfo inf;
+	vector <string> vInf;
+
+	vInf = vFun(infos, delim);
+
+	inf.accountnumber = vInf[0];
+	inf.pincode = vInf[1];
+	inf.name = vInf[2];
+	inf.phone = vInf[3];
+	inf.accountbalance = stod(vInf[4]);
+
+	return inf;
+}
+void Print(stInfo inf)
+{
+	cout << "account number : " << inf.accountnumber << endl;
+	cout << "pin code : " << inf.pincode << endl;
+	cout << "name : " << inf.name << endl;
+	cout << "phone : " << inf.phone << endl;
+	cout << "account balance : " << inf.accountbalance << endl;
+}
+
+
+int main()
+{
+	stInfo inf;
+	inf = Fill(ReadInf(), "#//#");
+	Print(inf);

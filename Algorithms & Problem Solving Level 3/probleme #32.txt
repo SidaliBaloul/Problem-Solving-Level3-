@@ -1,0 +1,24 @@
+char ReadChar()
+{
+	char ch;
+	cout << "enter the character : " << endl;
+	cin >> ch;
+
+	return ch;
+}
+bool Check(char ch)
+{
+	return ((ch == 'a') || (ch == 'e') || (ch == 'i') || (ch == 'o') || (ch == 'u'));
+}
+
+
+
+int main()
+{
+	char ch = ReadChar();
+
+	
+	if (Check(ch))
+		cout << "YES letter " << ch << " is vowel " << endl;
+	else
+		cout << "No letter is not vowel" << endl;

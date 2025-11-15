@@ -1,0 +1,86 @@
+string ReadName()
+{
+	string word;
+	cout << "enter the name : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+
+string LowerString(string word)
+{
+	for (int i = 0; i < word.length();i++)
+	{
+		word[i] = tolower(word[i]);
+	}
+
+	return word;
+}
+vector <string> Split(string word, string delim)
+{
+	vector <string> vWord;
+	short pos = 0;
+	string sword = "";
+
+	while ((pos = word.find(delim)) != std::string::npos)
+	{
+		sword = word.substr(0, pos);
+		if (sword != " ")
+		{
+			vWord.push_back(sword);
+		}
+		word.erase(0, pos + delim.length());
+	}
+	if (word != " ")
+	{
+		vWord.push_back(word);
+	}
+
+	return vWord;
+}
+string JoinString(vector <string> vWord, string delim)
+{
+	string word = "";
+	for (string& n : vWord)
+	{
+		word += n + " ";
+	}
+	word = word.substr(0, word.length() - 1);
+
+	return word;
+}
+string Replace(string word,string replace,string newe, bool matchcase = true)
+{
+	vector <string> vWord;
+	vWord = Split(word, " ");
+
+	for (string& n : vWord)
+	{
+		if (matchcase)
+		{
+			if (n == replace)
+			{
+				n = newe;
+			}
+			
+		}
+		else
+		{
+			if (LowerString(n) == LowerString(replace))
+			{
+				n = newe;
+			}
+		}
+	}
+	
+	
+	return JoinString(vWord," ");
+}
+
+
+int main()
+{
+	string word = ReadName();
+	string replace = "jordan";
+	string newe = "USA";
+	cout << "after replace : " << Replace(word, replace, newe, false) << endl;

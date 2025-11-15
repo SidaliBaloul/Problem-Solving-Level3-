@@ -1,0 +1,67 @@
+int RandomNumbers(int from, int to)
+{
+    int randn = rand() % (to - from + 1) + from;
+
+    return randn;
+}
+
+void Arr(int arr1[3][3], short row, short colon,int sum[3])
+{
+    
+    for (int i = 0; i < row;i++)
+    {
+        for (int j = 0; j < colon;j++)
+        {
+            arr1[i][j] = RandomNumbers(1, 100);
+            
+        }
+    }
+}
+
+void PrintArr(int arr1[3][3],short row , short colon)
+{
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < colon; j++)
+        {
+            cout << setw(3) << arr1[i][j] << "    ";
+        }
+        cout << endl;
+    }
+}
+int RowSum(int arr[3][3], short rows, short colon)
+{
+    int sum = 0;
+    for (int i = 0; i < rows; i++)
+    {
+        sum += arr[i][colon];
+    }
+
+    return sum;
+}
+
+void Sum(int sum[3],short rows,int arr[3][3])
+{
+    for (int i = 0; i < rows; i++)
+    {
+        cout << "hh" << endl;
+    }
+}
+void PrintSum(int sum[3],int rows,int arr[3][3])
+{
+    for (int i = 0;i < 3; i++)
+    {
+        cout << " row " << i + 1 << " Sum = " << RowSum(arr, rows, i) << endl;
+    }
+}
+
+int main()
+{
+    srand((unsigned)time(NULL));
+    int arr1[3][3];
+    int sum[3];
+    Arr(arr1, 3, 3,sum);
+    PrintArr(arr1, 3, 3);
+    cout << endl;
+    Sum(sum, 3, arr1);
+    PrintSum(sum,3,arr1);

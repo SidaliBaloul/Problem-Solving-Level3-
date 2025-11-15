@@ -1,0 +1,36 @@
+string ReadName()
+{
+	string word;
+	cout << "enter the character : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+bool Check(char ch)
+{
+	ch = tolower(ch);
+
+	return ((ch == 'a') || (ch == 'e') || (ch == 'i') || (ch == 'o') || (ch == 'u'));
+}
+int CountVowel(string word)
+{
+	int counter = 0;
+
+	for (int i = 0; i < word.length(); i++)
+	{
+		if (Check(word[i]))
+		{
+			counter++;
+		}
+	}
+	return counter;
+}
+
+
+
+int main()
+{
+	string name = ReadName();
+
+	
+	cout << "number of vowels is : " << CountVowel(name);

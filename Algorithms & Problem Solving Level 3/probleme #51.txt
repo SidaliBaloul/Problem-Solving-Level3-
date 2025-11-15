@@ -1,0 +1,208 @@
+const string filename = "clients.txt";
+
+struct stInfo
+{
+	string accountnumber;
+	string pincode;
+	string name;
+	string phone;
+	string accountbalance;
+	bool check = false;
+};
+
+string ReadAccountNumber()
+{
+	string number;
+	cout << "please enter Account number : " << endl;
+	cin >> number;
+
+	return number;
+}
+
+vector <string> Split(string word, string delim)
+{
+	vector <string> vinf;
+	short pos = 0;
+	string sword = "";
+
+	while ((pos = word.find(delim)) != std::string::npos)
+	{
+		sword = word.substr(0, pos);
+
+		if (sword != " ")
+		{
+			vinf.push_back(sword);
+		}
+		word = word.erase(0, pos + delim.length());
+	}
+	if (word != " ")
+	{
+		vinf.push_back(word);
+	}
+
+	return vinf;
+}
+
+stInfo RecordLine(string word)
+{
+	vector <string> vInf;
+	stInfo inf;
+
+	vInf = Split(word,"//");
+
+	inf.accountnumber = vInf[0];
+	inf.pincode = vInf[1];
+	inf.name = vInf[2];
+	inf.phone = vInf[3];
+	inf.accountbalance = (vInf[4]);
+
+	return inf;
+}
+stInfo UpdateInfos(stInfo inf)
+{
+
+
+	cout << "enter PinCode : ";
+	getline(cin >> ws, inf.pincode);
+
+	cout << "enter name : ";
+	getline(cin, inf.name);
+
+	cout << "enter phone : ";
+	getline(cin, inf.phone);
+
+	cout << "enter account balance : ";
+	cin >> inf.accountbalance;
+
+	return inf;
+}
+
+vector <stInfo> vInfos(string filename)
+{
+	stInfo inf;
+	vector <stInfo> vinf;
+	fstream file;
+
+	file.open(filename, ios::in);
+
+	if (file.is_open())
+	{
+		string word;
+
+		while (getline(file,word))
+		{
+			inf = RecordLine(word);
+			vinf.push_back(inf);
+		}
+
+	}
+	file.close();
+
+	return vinf;
+}
+
+void Print(stInfo n)
+{
+	cout << "account number  : " << n.accountnumber << endl;
+	cout << "Pin Code        : " << n.pincode << endl;
+	cout << "Name            : " << n.name << endl;
+	cout << "Phone           : " << n.phone << endl;
+	cout << "Account Balance : " << n.accountbalance << endl;
+}
+bool Check(stInfo& client,string word, vector <stInfo> &vinf)
+{
+	
+
+	for (stInfo& n : vinf)
+	{
+		if (n.accountnumber == word)
+		{
+			client = n;
+			
+			return true;
+			
+		}
+	}
+	return false;
+}
+
+string After(stInfo inf, string delim = "//")
+{
+	string word = "";
+
+	word += inf.accountnumber + delim;
+	word += inf.pincode + delim;
+	word += inf.name + delim;
+	word += inf.phone + delim;
+	word += inf.accountbalance;
+
+	return word;
+}
+
+void VectorToFile(string filename,vector <stInfo> ing,stInfo client)
+{
+	string word;
+
+	fstream file;
+
+	file.open(filename, ios::out);
+
+	if (file.is_open())
+	{
+		for (stInfo &n : ing)
+		{
+			if (n.check == false)
+			{
+				word = After(n);
+				file << word + "\n";
+			}
+		}
+
+		
+	}
+	file.close();
+}
+
+
+void Meck(stInfo client, vector <stInfo>& vinf,string word)
+{
+	char yesno;
+
+	if (Check(client, word, vinf))
+	{
+
+		Print(client);
+
+		cout << "do u want to update this client ? Y/N : ";
+		cin >> yesno;
+
+		if (yesno == 'Y' || yesno == 'y')
+		{
+			for (stInfo& n : vinf)
+			{
+				if (n.accountnumber == word)
+				{
+					n = UpdateInfos(n);
+					break;
+					
+				}
+			}
+			VectorToFile(filename, vinf, client);
+			vinf = vInfos(filename);
+			cout << "client updated successfuly :) ";
+		}
+	}
+	else
+	{
+		cout << "there isnt client :( ";
+	}
+
+	
+}
+
+int main()
+{
+	stInfo client;
+	string word = ReadAccountNumber();
+	vector <stInfo> vinf = vInfos(filename);
+	Meck(client, vinf, word);

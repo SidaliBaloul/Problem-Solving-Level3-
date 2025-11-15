@@ -1,0 +1,39 @@
+string ReadName()
+{
+	string word;
+	cout << "enter the name : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+void PrintEach(string word)
+{
+	string delim = " ";
+
+	cout << "ur string words are : \n" << endl;
+	short pos = 0;
+	string sword;
+
+	while ((pos = word.find(delim)) != std::string::npos)
+	{
+		sword = word.substr(0, pos);
+		if (sword != "")
+		{
+			cout << sword << endl;
+		}
+
+		word.erase(0, pos + delim.length());
+
+	}
+
+	if (word != "")
+	{
+		cout << word << endl;
+	}
+}
+
+
+
+int main()
+{
+	PrintEach(ReadName());

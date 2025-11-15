@@ -1,0 +1,37 @@
+string ReadName()
+{
+	string word;
+	cout << "enter the name : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+
+string JoinString(vector <string> vWord, string delim)
+{
+	string word;
+	for (string &w : vWord)
+	{
+		word += w + delim;
+	}
+
+	return word.substr(0, word.length() - delim.length());
+}
+string JoinString(string arr[100],short length,string delim)
+{
+	string word;
+	for (int i = 0; i < length; i++)
+	{
+		word += arr[i] + delim;
+	}
+
+	return word.substr(0, word.length() - delim.length());
+}
+
+
+int main()
+{
+	string arr[100] = { "mohammed","faid","ali","maher" };
+	vector <string> vWord = { "mohammed","faid","ali","maher" };
+	cout << "vector after join : \n" << JoinString(vWord, ",") << endl << endl;
+	cout << "Array after join : \n" << JoinString(arr, 4, ",");

@@ -1,0 +1,29 @@
+void FillArray(int arr[3][3],short rows, short colon)
+{
+    int h = 1;
+    for (int i = 0;i < rows;i++)
+    {
+        for (int j = 0; j < colon;j++)
+        {
+            arr[i][j] = h;
+            h++;
+        }
+    }
+}
+void PrintArray(int arr[3][3],short rows,short colon)
+{
+    for (int i = 0;i < rows;i++)
+    {
+        for (int j = 0;j < colon;j++)
+        {
+            cout << setw(3) << arr[i][j] << "    ";
+        }
+        cout << endl;
+    }
+}
+
+int main()
+{
+    int arr1[3][3];
+    FillArray(arr1, 3, 3);
+    PrintArray(arr1, 3, 3);

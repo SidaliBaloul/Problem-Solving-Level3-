@@ -1,0 +1,37 @@
+int RandomNumbers(int from, int to)
+{
+    int randn = rand() % (to - from + 1) + from;
+
+    return randn;
+}
+
+void Arr(int arr1[3][3], short row, short colon)
+{
+    
+    for (int i = 0; i < row;i++)
+    {
+        for (int j = 0; j < colon;j++)
+        {
+            arr1[i][j] = RandomNumbers(1, 100);
+        }
+    }
+}
+
+void PrintArr(int arr1[3][3],short row , short colon)
+{
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < colon; j++)
+        {
+            cout << setw(8) << arr1[i][j];
+        }
+        cout << endl;
+    }
+}
+
+int main()
+{
+    srand((unsigned)time(NULL));
+    int arr1[3][3];
+    Arr(arr1, 3, 3);
+    PrintArr(arr1, 3, 3);

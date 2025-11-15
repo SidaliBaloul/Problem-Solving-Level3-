@@ -1,0 +1,62 @@
+int RandomNumbers(int from, int to)
+{
+    int randn = rand() % (to - from + 1) + from;
+
+    return randn;
+}
+
+void Arr(int arr1[3][3], short row, short colon)
+{
+    
+    for (int i = 0; i < row;i++)
+    {
+        for (int j = 0; j < colon;j++)
+        {
+            arr1[i][j] = RandomNumbers(1, 10);
+            
+        }
+    }
+}
+
+void PrintArr(int arr1[3][3],short row , short colon)
+{
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < colon; j++)
+        {
+            cout << setw(3);
+            printf("%0*d", 2, arr1[i][j]);
+            cout << "    ";
+        }
+        cout << endl;
+    }
+}
+void Fu(int arr[3][3], int arr2[3][3],int arr3[3][3], short rows,short colon)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < colon; j++)
+        {
+            arr3[i][j] = arr[i][j] * arr2[i][j];
+        }
+    }
+}
+
+
+int main()
+{
+    srand((unsigned)time(NULL));
+    int arr1[3][3];
+    int arr3[3][3];
+    int arr2[3][3];
+    cout << "matrix 01 : " << endl;
+    Arr(arr1, 3, 3);
+    PrintArr(arr1, 3, 3);
+    cout << endl;
+    cout << "matrix 02 : " << endl;
+    Arr(arr2, 3, 3);
+    PrintArr(arr2, 3, 3);
+    cout << endl;
+    cout << "the result is : " << endl;
+    Fu(arr1, arr2, arr3, 3, 3);
+    PrintArr(arr3, 3, 3);

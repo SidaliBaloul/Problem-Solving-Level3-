@@ -1,0 +1,50 @@
+string ReadName()
+{
+	string word;
+	cout << "enter the name : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+vector <string> CounterWords(string word,string delim)
+{
+	vector <string> vNum;
+
+	short pos = 0;
+	string sword;
+	int counter = 0;
+
+	while ((pos = word.find(delim)) != std::string::npos)
+	{
+		sword = word.substr(0, pos);
+		if (sword != "")
+		{
+			vNum.push_back(sword);
+		}
+
+		word.erase(0, pos + delim.length());
+
+	}
+
+	if (word != "")
+	{
+		vNum.push_back(word);
+	}
+
+	return vNum;
+}
+
+
+
+int main()
+{
+	vector <string> vmum;
+	
+
+	vmum = CounterWords(ReadName(), " ");
+	cout << "tokens = " << vmum.size() << endl;
+
+	for (string& n : vmum)
+	{
+		cout << n << endl;
+	}

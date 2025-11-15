@@ -1,0 +1,19 @@
+char ReadChar()
+{
+	char ch;
+	cout << "please enter a char : " << endl;
+	cin >> ch;
+
+	return ch;
+}
+char Check(char ch)
+{
+	
+	return isupper(ch) ? tolower(ch) : toupper(ch);
+}
+
+int main()
+{
+	char ch = Check(ReadChar());
+	cout << "char after : " << endl;
+	cout << ch << endl;

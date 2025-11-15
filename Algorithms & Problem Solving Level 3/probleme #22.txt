@@ -1,0 +1,34 @@
+int ReadNumber()
+{
+	int num;
+	cout << "please enter a number : " << endl;
+	cin >> num;
+
+	return num;
+}
+
+void FillFibonacci(int num, int p1, int p2)
+{
+	
+	
+	if (num > 0)
+	{
+		 int fb = p1 + p2;
+		cout << fb << "   ";
+		p1 = p2;
+		p2 = fb;
+		FillFibonacci(num - 1, p1, p2);
+		
+	}
+	
+}
+
+
+int main()
+{
+	
+	int fb = 0;
+	int i = 1;
+	int Number = ReadNumber();
+	cout << " 1   ";
+	FillFibonacci(Number, 0, 1);

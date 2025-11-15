@@ -1,0 +1,78 @@
+int RandomNumber(int from, int to)
+{
+	int randnum = rand() % (to - from + 1) + from;
+
+	return randnum;
+}
+
+void FillArray(int arr[3][3], short rows, short colon)
+{
+	for (short i = 0; i < rows; i++)
+	{
+		for (short j = 0; j < colon; j++)
+		{
+			arr[i][j] = RandomNumber(1, 99);
+
+		}
+	}
+}
+void PrintMatrix(int arr[3][3], short Rows, short Cols)
+{
+	for (short i = 0; i < Rows; i++)
+	{
+		for (short j = 0; j < Cols; j++)
+		{
+			printf(" %0*d ", 2, arr[i][j]);
+			cout << setw(3) << " ";
+		}
+		cout << "\n";
+	}
+}
+bool Meck(int number,int arr1[3][3], short rows, short colon)
+{
+	for (short i = 0; i < rows; i++)
+	{
+		for (short j = 0; j < colon; j++)
+		{
+			if (arr1[i][j] == number)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+void Check(int arr[3][3], int arr2[3][3], int rows, int colon)
+{
+	int number;
+	
+			for (short i = 0; i < rows; i++)
+			{
+				for (short j = 0; j < colon; j++)
+				{
+					number = arr[i][j];
+					if (Meck(number, arr2, 3, 3))
+					{
+						cout << number << "    ";
+					}
+
+				}
+			}
+
+}
+
+int main()
+{
+	srand((unsigned)time(NULL));
+
+	int Matrix1[3][3], Matrix2[3][3];
+	//int Matrix1[3][3] = { {1,0,0},{0,1,0},{0,0,1} };
+	cout << "\nMatrix1:\n";
+	FillArray(Matrix1, 3, 3);
+	PrintMatrix(Matrix1, 3, 3);
+
+	cout << "\nMatrix2:\n";
+	FillArray(Matrix2, 3, 3);
+	PrintMatrix(Matrix2, 3, 3);
+	cout << "\nIntersected numbers are :\n";
+	Check(Matrix1, Matrix2, 3, 3);

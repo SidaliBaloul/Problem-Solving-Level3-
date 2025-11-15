@@ -1,0 +1,123 @@
+const string filename = "clients.txt";
+
+struct stInfo
+{
+	string accountnumber;
+	string pincode;
+	string name;
+	string phone;
+	string accountbalance;
+};
+
+string ReadAccountNumber()
+{
+	string number;
+	cout << "please enter Account number : " << endl;
+	cin >> number;
+
+	return number;
+}
+
+vector <string> Split(string word, string delim)
+{
+	vector <string> vinf;
+	short pos = 0;
+	string sword = "";
+
+	while ((pos = word.find(delim)) != std::string::npos)
+	{
+		sword = word.substr(0, pos);
+
+		if (sword != " ")
+		{
+			vinf.push_back(sword);
+		}
+		word = word.erase(0, pos + delim.length());
+	}
+	if (word != " ")
+	{
+		vinf.push_back(word);
+	}
+
+	return vinf;
+}
+
+stInfo RecordLine(string word)
+{
+	vector <string> vInf;
+	stInfo inf;
+
+	vInf = Split(word,"//");
+
+	inf.accountnumber = vInf[0];
+	inf.pincode = vInf[1];
+	inf.name = vInf[2];
+	inf.phone = vInf[3];
+	inf.accountbalance = (vInf[4]);
+
+	return inf;
+}
+
+vector <stInfo> vInfos(string filename)
+{
+	stInfo inf;
+	vector <stInfo> vinf;
+	fstream file;
+
+	file.open(filename, ios::in);
+
+	if (file.is_open())
+	{
+		string word;
+
+		while (getline(file,word))
+		{
+			inf = RecordLine(word);
+			vinf.push_back(inf);
+		}
+
+	}
+	file.close();
+
+	return vinf;
+}
+
+void Print(stInfo n)
+{
+	cout << "account number  : " << n.accountnumber << endl;
+	cout << "Pin Code        : " << n.pincode << endl;
+	cout << "Name            : " << n.name << endl;
+	cout << "Phone           : " << n.phone << endl;
+	cout << "Account Balance : " << n.accountbalance << endl;
+}
+bool Check(stInfo& client,string word)
+{
+	vector <stInfo> vinf = vInfos(filename);
+
+	for (stInfo& n : vinf)
+	{
+		if (n.accountnumber == word)
+		{
+			client = n;
+			return true;
+			
+		}
+	}
+	return false;
+}
+
+
+int main()
+{
+	stInfo client;
+	string word = ReadAccountNumber();
+	
+
+	if (Check(client, word))
+	{
+		Print(client);
+	}
+	else
+	{
+		cout << "there isnt a client : " << endl;
+	}

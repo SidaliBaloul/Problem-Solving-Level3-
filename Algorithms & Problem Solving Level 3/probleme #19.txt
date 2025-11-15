@@ -1,0 +1,75 @@
+int RandomNumber(int from, int to)
+{
+	int randnum = rand() % (to - from + 1) + from;
+
+	return randnum;
+}
+
+void FillArray(int arr[3][3], short rows, short colon)
+{
+	for (short i = 0; i < rows; i++)
+	{
+		for (short j = 0; j < colon; j++)
+		{
+			arr[i][j] = RandomNumber(1, 99);
+
+		}
+	}
+}
+void PrintMatrix(int arr[3][3], short Rows, short Cols)
+{
+	for (short i = 0; i < Rows; i++)
+	{
+		for (short j = 0; j < Cols; j++)
+		{
+			printf(" %0*d ", 2, arr[i][j]);
+			cout << setw(3) << " ";
+		}
+		cout << "\n";
+	}
+}
+
+int Min(int arr[3][3],int rows, int colon)
+{
+	int min = arr[0][0];
+	for (short i = 0; i < rows; i++)
+	{
+		for (short j = 0; j < colon; j++)
+		{
+			if (arr[i][j] < min)
+			{
+				min = arr[i][j];
+			}
+
+		}
+	}
+	return min;
+}
+int Max(int arr[3][3], int rows, int colon)
+{
+	int max = arr[0][0];
+	for (short i = 0; i < rows; i++)
+	{
+		for (short j = 0; j < colon; j++)
+		{
+			if (arr[i][j] > max)
+			{
+				max = arr[i][j];
+			}
+
+		}
+	}
+	return max;
+}
+
+int main()
+{
+	srand((unsigned)time(NULL));
+
+	int Matrix1[3][3];
+	//int Matrix1[3][3] = { {1,0,0},{0,1,0},{0,0,1} };
+	cout << "\nMatrix1:\n";
+	FillArray(Matrix1, 3, 3);
+	PrintMatrix(Matrix1, 3, 3);
+	cout << "\nmin is : " << Min(Matrix1, 3, 3) << endl;
+	cout << "max is : " << Max(Matrix1, 3, 3) << endl;

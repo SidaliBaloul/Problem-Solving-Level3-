@@ -1,0 +1,92 @@
+using namespace std;
+const string filename = "clients.txt";
+
+struct stInfo
+{
+	string accountnumber;
+	string pincode;
+	string name;
+	string phone;
+	double accountbalance;
+};
+
+stInfo ReadInfos()
+{
+	stInfo inf;
+	
+	cout << "\nenter account number :";
+	getline(cin >> ws, inf.accountnumber); 
+
+	cout << "\nenter PinCode : ";
+	getline(cin, inf.pincode);
+
+	cout << "\nenter name : ";
+	getline(cin, inf.name);
+
+	cout << "\nenter phone : ";
+	getline(cin, inf.phone);
+
+	cout << "\nenter account balance : ";
+	cin >> inf.accountbalance;
+
+	return inf;
+}
+
+string After(stInfo inf, string delim = "//")
+{
+	string word = "";
+
+	word += inf.accountnumber + delim;
+	word += inf.name + delim;
+	word += inf.phone + delim;
+	word += inf.pincode + delim;
+	word += to_string(inf.accountbalance);
+
+	return word;
+}
+
+
+void AddClients(string filename,string record)
+{
+	
+	fstream file;
+	
+	file.open(filename, ios::out | ios::app);
+
+		if (file.is_open())
+		{
+			file << record << endl;
+
+			file.close();
+		}
+		
+}
+void AddData()
+{
+	stInfo inf;
+	inf = ReadInfos();
+	AddClients(filename, After(inf));
+}
+void NewClents()
+{
+	char yesno = 'Y';
+
+
+	do
+	{
+
+		system("cls");
+		cout << "addaing new client : \n\n";
+
+		AddData();
+		cout << "client save success, do u want to add more ? Y/N : ";
+		cin >> yesno;
+
+	} while (toupper(yesno) == 'Y');
+}
+
+
+int main()
+{
+
+	NewClents();

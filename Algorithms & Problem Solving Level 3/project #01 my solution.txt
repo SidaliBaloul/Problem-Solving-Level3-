@@ -1,0 +1,434 @@
+using namespace std;
+string filename = "clients.txt";
+int main();
+
+struct stInfos
+{
+	string accountnumber;
+	string pincode;
+	string name;
+	string phone;
+	string accountbalance;
+	bool deleteclient = false;
+};
+
+enum eoptions
+{ 
+   showlist = 1, addnew = 2, deleteclient = 3,
+	update = 4, find = 5,
+	exitt = 6 
+};
+
+int ReadChoice()
+{
+	int num;
+	do
+	{
+		cout << "Choose what do you want to do ? [1 to 6] ?";
+		cin >> num;
+	} while (num < 1 || num > 6);
+
+	return num;
+}
+
+void GoBackToMainMenu()
+{
+	char yesno;
+	cout << "press any key to go back : ";
+
+	if (cin >> yesno)
+	{
+		cout << main();
+	}
+}
+
+string ReadAccountNumber()
+{
+	string Number;
+	cout << "enter account number : ";
+	cin >> Number;
+
+	return Number;
+}
+
+vector <string> Split(string line,string delim)
+{
+	vector <string> vline;
+	short pos = 0;
+	string sword = "";
+
+	while ((pos = line.find(delim)) != std::string::npos)
+	{
+		sword = line.substr(0, pos);
+		if (sword != " ")
+		{
+			vline.push_back(sword);
+		}
+		line = line.erase(0, pos + delim.length());
+	}
+	if (line != " ")
+	{
+		vline.push_back(line);
+	}
+
+	return vline;
+}
+
+stInfos ConvertVectorToStruct(string line)
+{
+
+	vector <string> vInf;
+	stInfos inf;
+
+	vInf = Split(line, "//");
+
+	inf.accountnumber = vInf[0];
+	inf.pincode = vInf[1];
+	inf.name = vInf[2];
+	inf.phone = vInf[3];
+	inf.accountbalance = vInf[4];
+
+	return inf;
+}
+
+string ConvertStructToString(stInfos inf,string delim = "//")
+{
+	string line;
+
+	line += inf.accountnumber + delim;
+	line += inf.pincode + delim;
+	line += inf.name + delim;
+	line += inf.phone + delim;
+	line += inf.accountbalance;
+
+	return line;
+}
+
+vector <stInfos> GetInfos(string filename,stInfos& inf)
+{
+	fstream file;
+	
+	vector <stInfos> vinff;
+
+	file.open(filename, ios::in);
+
+	if (file.is_open())
+	{
+		string line;
+		while (getline(file,line))
+		{
+			inf = ConvertVectorToStruct(line);
+			vinff.push_back(inf);
+		}
+		
+	}
+	file.close();
+
+	return vinff;
+}
+
+void AddClientToFile(string filename,stInfos inf)
+{
+	fstream file;
+	string line;
+	file.open(filename, ios::app);
+
+	if (file.is_open())
+	{
+		line = ConvertStructToString(inf);
+		file << line + "\n";
+
+		
+	}
+	file.close();
+}
+
+void PrintClientList(vector <stInfos> vinf)
+{
+	cout << "                               Client List (" << vinf.size() << ") Client(s).                             \n";
+	cout << "----------------------------------------------------------------------------------------------\n";
+	cout << " | " << setw(15) << "Account Number " << " | " << setw(10) << "Pin Code " << " | " << setw(25) << "Client Name " << " | " << setw(10) << "Phone" << " | " << setw(15) << "Balance" << " | \n";
+	cout << "----------------------------------------------------------------------------------------------\n";
+
+	for (stInfos &n : vinf)
+	{
+		cout << " | " << setw(15) << n.accountnumber << " | " << setw(10) << n.pincode << " | " << setw(25) << n.name << " | " << setw(10) << n.phone << " | " << setw(15) << n.accountbalance << " | \n";
+	}
+	cout << "----------------------------------------------------------------------------------------------\n";
+
+	
+}
+
+bool CheckIfClientExist(vector <stInfos>& vinf,stInfos& client ,string accountnum)
+{
+	for (stInfos& n : vinf)
+	{
+		if (n.accountnumber == accountnum)
+		{
+			n.deleteclient = true;
+			client = n;
+			return true;
+		}
+	}
+	return false;
+}
+
+void PrintClientCard(stInfos inf)
+{
+	cout << "Account number  : " << inf.accountnumber << endl;
+	cout << "Pin code        : " << inf.pincode << endl;
+	cout << "Name            : " << inf.name << endl;
+	cout << "Phone           : " << inf.phone << endl;
+	cout << "Account Balance : " << inf.accountbalance << endl;
+}
+
+void DeleteClientFromFile(string filename, stInfos inf,vector <stInfos> vinf)
+{
+	fstream file;
+	string line;
+	file.open(filename, ios::out);
+
+	if (file.is_open())
+	{
+		for (stInfos& n : vinf)
+		{
+			if (n.deleteclient == false)
+			{
+				line = ConvertStructToString(n);
+				file << line + "\n";
+			}
+		}
+
+	}
+	file.close();
+}
+
+void DeleteCientScreen(vector <stInfos> vinf,stInfos inf)
+{
+	cout << "---------------------------------------------------------------\n";
+	cout << "                      DELETE CLIENT SCREEN                     \n";
+	cout << "----------------------------------------------------------------n\n";
+	string number;
+	stInfos client;
+	char yesno;
+
+	cout << "enter account number : ";
+	cin >> number;
+
+	if (!CheckIfClientExist(vinf,client, number))
+	{
+		cout << "client does not exist ! ";
+		system("pause");
+	}
+	else
+	{
+		PrintClientCard(client);
+		cout << "are you sure you want to delete this client ? Y/N : ";
+		cin >> yesno;
+		if (yesno == 'Y' || yesno == 'y')
+		{
+			DeleteClientFromFile(filename, inf, vinf);
+			cout << "client deleted succefully.";
+		}
+	}
+
+}
+
+stInfos ReadNewClientInfos(stInfos inf,string num)
+{
+
+	
+	inf.accountnumber = num;
+
+	cout << "enter PinCode : ";
+	getline(cin >> ws, inf.pincode);
+
+	cout << "enter name : ";
+	getline(cin, inf.name);
+
+	cout << "enter phone : ";
+	getline(cin, inf.phone);
+
+	cout << "enter account balance : ";
+	cin >> inf.accountbalance;
+
+	return inf;
+}
+
+void AddUpdatedClientToFile(string filename,vector <stInfos> vinf)
+{
+	fstream file;
+	string line;
+	file.open(filename, ios::out);
+
+	if (file.is_open())
+	{
+		string line;
+		for (stInfos& n : vinf)
+		{
+			line = ConvertStructToString(n);
+			file << line + "\n";
+		}
+		
+
+	}
+	file.close();
+}
+
+string Check(vector <stInfos> vinf)
+{
+	stInfos n;
+	string num;
+	cout << "enter account number : ";
+	cin >> num;
+
+	while (CheckIfClientExist(vinf,n, num))
+	{
+		cout << "client with [" << num << "] already exist, enter another : ";
+		cin >> num;
+	}
+	return num;
+}
+
+void AddNewClient(vector <stInfos> vinf,stInfos inf)
+{
+	stInfos info;
+	char yesno = 'Y';
+	cout << "-----------------------------------------------------------------\n";
+	cout << "                        ADD NEW CLIENTS SCREEN                   \n";
+	cout << "-----------------------------------------------------------------\n";
+	
+
+	do
+	{
+		string num = Check(vinf);
+		inf = ReadNewClientInfos(inf,num);
+		AddClientToFile(filename, inf);
+		vinf = GetInfos(filename,inf);
+		cout << "client added succefully ,do you want to add another ? Y/N : ";
+		cin >> yesno;
+	} while (yesno == 'Y' || yesno == 'y');
+
+}
+
+void UpdateClientInfos(vector <stInfos> vinf, stInfos inf)
+{
+	cout << "---------------------------------------------------------------\n";
+	cout << "                      UPDATE CLIENT SCREEN                     \n";
+	cout << "----------------------------------------------------------------n\n";
+	string number;
+	stInfos client;
+	char yesno;
+
+	cout << "enter account number : ";
+	cin >> number;
+
+	if (!CheckIfClientExist(vinf, client, number))
+	{
+		cout << "client does not exist ! ";
+		system("pause");
+	}
+	else
+	{
+		PrintClientCard(client);
+		cout << "are you sure you want to update this client ? Y/N : ";
+		cin >> yesno;
+		if (yesno == 'Y' || yesno == 'y')
+		{
+			for (stInfos& n : vinf)
+			{
+				if (n.accountnumber == number)
+				{
+					n = ReadNewClientInfos(n, number);
+
+				}
+			}
+			AddUpdatedClientToFile(filename, vinf);
+			vinf = GetInfos(filename, inf);
+			cout << "client updated succefully.";
+		}
+	}
+
+	
+}
+
+void FindClient(vector <stInfos> vinf, stInfos inf)
+{
+
+	cout << "---------------------------------------------------------------\n";
+	cout << "                      FIND CLIENT SCREEN                     \n";
+	cout << "---------------------------------------------------------------\n";
+
+	stInfos client;
+	string number;
+	cout << "please enter account number : ";
+	cin >> number;
+
+	if (!CheckIfClientExist(vinf, client, number))
+	{
+		cout << "client does not exist ! ";
+		system("pause");
+	}
+	else
+	{
+		PrintClientCard(client);
+	}
+
+	
+}
+
+void EnterToFunctions(eoptions option, vector <stInfos> vinf,stInfos inf)
+{
+	switch (option)
+	{
+	case eoptions::showlist:
+		system("cls");
+		PrintClientList(vinf);
+		GoBackToMainMenu();
+		break;
+	case eoptions::addnew:
+		system("cls");
+		AddNewClient(vinf,inf);
+		GoBackToMainMenu();
+		break;
+	case eoptions::deleteclient:
+		system("cls");
+		DeleteCientScreen(vinf, inf);
+		GoBackToMainMenu();
+		break;
+	case eoptions::update:
+		system("cls");
+		UpdateClientInfos(vinf, inf);
+		GoBackToMainMenu();
+		break;
+	case eoptions::find:
+		FindClient(vinf, inf);
+		break;
+	case eoptions::exitt:
+		break;
+	}
+}
+
+void MainMenuScreen()
+{
+	system("cls");
+	cout << "---------------------------------------------------\n";
+	cout << "                MAIN MENU SCREEN          \n";
+	cout << "---------------------------------------------------\n";
+	cout << "                [1] Show Client List               \n";
+	cout << "                [2] Add New Client                 \n";
+	cout << "                [3] Delete Client                  \n";
+	cout << "                [4] Update Client Info             \n";
+	cout << "                [5] Find Client                    \n";
+	cout << "                [6] Exit                           \n";
+	cout << "---------------------------------------------------\n";
+
+
+}
+
+int main()
+{
+	stInfos inf;
+	MainMenuScreen();
+	vector <stInfos> vinf = GetInfos(filename, inf);
+	EnterToFunctions((eoptions)ReadChoice(), vinf, inf);

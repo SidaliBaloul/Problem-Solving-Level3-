@@ -1,0 +1,57 @@
+int RandomNumbers(int from, int to)
+{
+    int randn = rand() % (to - from + 1) + from;
+
+    return randn;
+}
+
+void Arr(int arr1[3][3], short row, short colon)
+{
+    
+    for (int i = 0; i < row;i++)
+    {
+        for (int j = 0; j < colon;j++)
+        {
+            arr1[i][j] = RandomNumbers(1, 100);
+            
+        }
+    }
+}
+
+void PrintArr(int arr1[3][3],short row , short colon)
+{
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < colon; j++)
+        {
+            cout << setw(3) << arr1[i][j] << "    ";
+        }
+        cout << endl;
+    }
+}
+int RowSum(int arr[3][3],int rows,int colon)
+{
+    int sum = 0;
+    for (int i = 0; i < colon; i++)
+    {
+        sum += arr[rows][i];
+    }
+
+    return sum;
+}
+void PrintSum(int arr[3][3],short rows, short colon)
+{
+    for (int i = 0;i < 3; i++)
+    {
+        cout << " row " << i + 1 << " Sum = " << RowSum(arr, i, colon) << endl;
+    }
+}
+
+int main()
+{
+    srand((unsigned)time(NULL));
+    int arr1[3][3];
+    Arr(arr1, 3, 3);
+    PrintArr(arr1, 3, 3);
+    cout << endl;
+    PrintSum(arr1, 3, 3);

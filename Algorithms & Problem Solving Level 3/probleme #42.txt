@@ -1,0 +1,30 @@
+string ReadName()
+{
+	string word;
+	cout << "enter the name : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+
+string Replace(string word,string replace,string newe)
+{
+	short pos = 0;
+
+	while ((pos = word.find(replace)) != std::string::npos)
+	{
+		word = word.replace(pos, replace.length(), newe);
+		pos = word.find(replace);
+	}
+	
+	
+	return word;
+}
+
+
+int main()
+{
+	string word = ReadName();
+	string replace = "jordan";
+	string newe = "USA";
+	cout << "after replace : " << Replace(word,replace,newe) << endl;

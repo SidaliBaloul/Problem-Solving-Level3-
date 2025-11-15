@@ -1,0 +1,53 @@
+{
+	string word;
+	cout << "enter the name : " << endl;
+	getline(cin, word);
+
+	return word;
+}
+
+vector <string> Split(string word,string delim)
+{
+	vector <string> vWord;
+	short pos = 0;
+	string sword;
+
+	while ((pos = word.find(delim)) != std::string::npos)
+	{
+		sword = word.substr(0, pos);
+		if (sword != " ")
+		{
+			vWord.push_back(sword);
+		}
+		word.erase(0, pos + delim.length());
+	}
+	if (word != " ")
+	{
+		vWord.push_back(word);
+	}
+
+	return vWord;
+}
+string Reverse(string word)
+{
+	vector <string> vString;
+
+	vString = Split(word, " ");
+	string word2 = "";
+	vector <string> ::iterator itr = vString.end();
+
+	while (itr != vString.begin())
+	{
+		--itr;
+		word2 += *itr + " ";
+	}
+	word2 = word2.substr(0, word2.length() - 1);
+
+	return word2;
+}
+
+
+int main()
+{
+	string word = ReadName();
+	cout << "after reverse : " << Reverse(word) << endl;

@@ -1,0 +1,53 @@
+struct stInfo
+{
+	string accountnumber;
+	string pincode;
+	string name;
+	string phone;
+	double accountbalance;
+};
+
+stInfo ReadInfos()
+{
+	stInfo inf;
+	cout << "please enter ur infos : \n" << endl;
+
+	cout << "enter account number : ";
+	getline(cin, inf.accountnumber);
+
+	cout << "enter PinCode : ";
+	getline(cin, inf.pincode);
+
+	cout << "enter name : ";
+	getline(cin, inf.name);
+
+	cout << "enter phone : ";
+	getline(cin, inf.phone);
+
+	cout << "enter account balance : ";
+	cin >> inf.accountbalance;
+
+	return inf;
+}
+
+string After(stInfo inf, string delim = "#//#")
+{
+	string word = "";
+
+	word += inf.accountnumber + delim;
+	word += inf.name + delim;
+	word += inf.phone + delim;
+	word += inf.pincode + delim;
+	word += to_string(inf.accountbalance);
+
+
+	return word;
+}
+
+
+int main()
+{
+	stInfo inf;
+	inf = ReadInfos();
+
+	cout << "after string : " << After(inf) << endl;
